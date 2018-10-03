@@ -46,8 +46,8 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:naumanaftab/spring-boot-petclinic.git</developerConnection>
-      <tag>spring-boot-petclinic-0.0.1</tag>
-  </scm>
+        <tag>spring-boot-petclinic-0.0.1</tag>
+    </scm>
 
 
 </project>
