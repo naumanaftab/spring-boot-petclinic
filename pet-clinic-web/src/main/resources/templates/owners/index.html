@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymleaf.org">
+<html lang="en" xmlns:th="http://www.thymleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 <head>
     <meta charset="UTF-8">
     <title>Pet Clinic - List of Owners</title>
 </head>
 <body>
-<h1 th:text="'List of Owners'">List of Owners ....</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="owner : ${owners}">
-        <td th:text="${owner?.id}">1</td>
-        <td th:text="${owner?.firstName}">Nauman</td>
-        <td th:text="${owner?.lastName}">Aftab</td>
-    </tr>
-    </tbody>
-</table>
+    <h2 th:text="'List of Owners'">List of Owners ....</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px;">Id</th>
+            <th style="width: 150px;">First Name</th>
+            <th style="width: 150px;">Last Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="owner : ${owners}">
+            <td th:text="${owner?.id}">1</td>
+            <td th:text="${owner?.firstName}">Nauman</td>
+            <td th:text="${owner?.lastName}">Aftab</td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
