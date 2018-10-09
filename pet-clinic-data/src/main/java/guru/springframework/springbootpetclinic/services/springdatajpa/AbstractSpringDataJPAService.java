@@ -4,13 +4,16 @@ import guru.springframework.springbootpetclinic.model.BaseEntity;
 import guru.springframework.springbootpetclinic.services.CrudService;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractSpringDataJPAService<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
 
     @Override
     public Set<T> findAll() {
-        return (Set<T>) getCrudRepository().findAll();
+        Set<T> safeCopy = new HashSet<>();
+        getCrudRepository().findAll().forEach(safeCopy::add);
+        return safeCopy;
     }
 
     @Override
