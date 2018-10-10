@@ -1,10 +1,7 @@
 package master.springframework.springbootpetclinic.bootstrap;
 
 import master.springframework.springbootpetclinic.model.*;
-import master.springframework.springbootpetclinic.services.OwnerService;
-import master.springframework.springbootpetclinic.services.PetTypeService;
-import master.springframework.springbootpetclinic.services.SpecialityService;
-import master.springframework.springbootpetclinic.services.VetService;
+import master.springframework.springbootpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,15 +14,18 @@ public class DataLoader implements CommandLineRunner {
     private VetService vetService;
     private PetTypeService petTypeService;
     private SpecialityService specialityService;
+    private VisitService visitService;
 
     public DataLoader(OwnerService ownerService,
                       VetService vetService,
                       PetTypeService petTypeService,
-                      SpecialityService specialityService) {
+                      SpecialityService specialityService,
+                      VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -73,6 +73,13 @@ public class DataLoader implements CommandLineRunner {
 
         ownerService.save(owner1);
 
+        Visit catVisit = new Visit();
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("sick");
+        snowy.addVisit(catVisit);
+
+        visitService.save(catVisit);
+
         Owner owner2 = new Owner();
         owner2.setFirstName("Stephen");
         owner2.setLastName("Lee");
@@ -86,6 +93,13 @@ public class DataLoader implements CommandLineRunner {
         woofy.setBirthDate(LocalDate.now());
 
         ownerService.save(owner2);
+
+        Visit dogVisit = new Visit();
+        dogVisit.setDate(LocalDate.now());
+        dogVisit.setDescription("regular checkup");
+        woofy.addVisit(dogVisit);
+
+        visitService.save(dogVisit);
 
         System.out.println("Loaded Owners ....");
 
