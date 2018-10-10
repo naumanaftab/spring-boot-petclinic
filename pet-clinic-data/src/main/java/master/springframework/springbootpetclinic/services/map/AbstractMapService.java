@@ -7,7 +7,7 @@ import java.util.*;
 
 public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
 
-    protected Map<Long, T> map = new HashMap<>();
+    Map<Long, T> map = new HashMap<>();
 
     public Set<T> findAll() {
         return new HashSet<>(map.values());
