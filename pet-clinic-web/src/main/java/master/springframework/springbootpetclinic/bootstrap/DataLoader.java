@@ -50,14 +50,19 @@ public class DataLoader implements CommandLineRunner {
         Speciality savedRadiologySpeciality = specialityService.save(radiology);
 
         Speciality surgery = new Speciality();
-        radiology.setDescription("Surgery");
+        surgery.setDescription("Surgery");
         Speciality savedSurgerySpeciality = specialityService.save(surgery);
 
         Speciality dentistry = new Speciality();
-        radiology.setDescription("Dentistry");
+        dentistry .setDescription("Dentistry");
         Speciality savedDentistrySpeciality = specialityService.save(dentistry);
 
         System.out.println("Loaded Specialities ....");
+
+        Pet snowy = new Pet();
+        snowy.setName("snowy");
+        snowy.setPetType(savedCatPetType);
+        snowy.setBirthDate(LocalDate.now());
 
         Owner owner1 = new Owner();
         owner1.setFirstName("Ross");
@@ -65,20 +70,20 @@ public class DataLoader implements CommandLineRunner {
         owner1.setAddress("123 USA");
         owner1.setCity("Washington");
         owner1.setTelephone("111-222-333-44");
-        Pet snowy = new Pet();
-        snowy.setName("snowy");
-        snowy.setPetType(savedCatPetType);
-        snowy.setOwner(owner1);
-        snowy.setBirthDate(LocalDate.now());
 
+        owner1.addPet(snowy);
         ownerService.save(owner1);
 
         Visit catVisit = new Visit();
         catVisit.setDate(LocalDate.now());
         catVisit.setDescription("sick");
         snowy.addVisit(catVisit);
-
         visitService.save(catVisit);
+
+        Pet woofy = new Pet();
+        woofy.setName("woofy");
+        woofy.setPetType(savedDogPetType);
+        woofy.setBirthDate(LocalDate.now());
 
         Owner owner2 = new Owner();
         owner2.setFirstName("Stephen");
@@ -86,19 +91,14 @@ public class DataLoader implements CommandLineRunner {
         owner2.setAddress("567 USA");
         owner2.setCity("Newyork");
         owner2.setTelephone("555-666-777-88");
-        Pet woofy = new Pet();
-        woofy.setName("woofy");
-        woofy.setPetType(savedDogPetType);
-        woofy.setOwner(owner2);
-        woofy.setBirthDate(LocalDate.now());
 
+        owner2.addPet(woofy);
         ownerService.save(owner2);
 
         Visit dogVisit = new Visit();
         dogVisit.setDate(LocalDate.now());
         dogVisit.setDescription("regular checkup");
         woofy.addVisit(dogVisit);
-
         visitService.save(dogVisit);
 
         System.out.println("Loaded Owners ....");
