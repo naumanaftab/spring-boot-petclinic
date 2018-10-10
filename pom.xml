@@ -14,7 +14,7 @@
     <description>Spring Boot Pet Clinic Project</description>
     <packaging>pom</packaging>
 
-    <groupId>guru.springframework</groupId>
+    <groupId>master.springframework</groupId>
     <artifactId>spring-boot-petclinic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 

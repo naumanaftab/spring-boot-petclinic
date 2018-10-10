@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>spring-boot-petclinic</artifactId>
-        <groupId>guru.springframework</groupId>
+        <groupId>master.springframework</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -30,7 +30,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>guru.springframework</groupId>
+            <groupId>master.springframework</groupId>
             <artifactId>pet-clinic-data</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
