@@ -18,8 +18,8 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
     }
 
     public T save(T t) {
-        Long nextId = getNextId();
-        t.setId(nextId  );
+        Long nextId = null == t.getId() ? getNextId() : t.getId();
+        t.setId(nextId);
         map.put(nextId, t);
         return t;
     }
