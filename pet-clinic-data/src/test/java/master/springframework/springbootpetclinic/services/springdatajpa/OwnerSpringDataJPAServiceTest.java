@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class OwnerSpringDataJPAServiceTest  {
 
     private static final String OWNER_FIRST_NAME = "Smith";
-    public static final long OWNER_ID = 1L;
+    private static final long OWNER_ID = 1L;
     private Owner returnedOwner;
 
     @Mock
