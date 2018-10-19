@@ -8,6 +8,7 @@ import master.springframework.springbootpetclinic.services.PetTypeService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,5 +47,11 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
                 .findFirst()
                 .orElse(null);
 
+    }
+
+    @Override
+    public List<Owner> findByLastNameLike(String lastName) {
+        //Todo - Impl
+        return null;
     }
 }

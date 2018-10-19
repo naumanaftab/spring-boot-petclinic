@@ -12,9 +12,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -23,6 +25,7 @@ import static org.mockito.Mockito.*;
 class OwnerSpringDataJPAServiceTest  {
 
     private static final String OWNER_FIRST_NAME = "Smith";
+    private static final String OWNER_LAST_NAME = "Good";
     private static final long OWNER_ID = 1L;
     private Owner returnedOwner;
 
@@ -37,18 +40,28 @@ class OwnerSpringDataJPAServiceTest  {
         returnedOwner = new Owner();
         returnedOwner.setId(1L);
         returnedOwner.setFirstName(OWNER_FIRST_NAME);
-        returnedOwner.setLastName("Jones");
+        returnedOwner.setLastName(OWNER_LAST_NAME);
 
     }
 
     @Test
     void service_findByLastName_success() {
-        when(ownerRepository.findByLastName(OWNER_FIRST_NAME)).thenReturn(returnedOwner);
+        when(ownerRepository.findByLastName(OWNER_LAST_NAME)).thenReturn(returnedOwner);
 
-        Owner found = ownerService.findByLastName(OWNER_FIRST_NAME);
+        Owner found = ownerService.findByLastName(OWNER_LAST_NAME);
         assertEquals(1L, found.getId().longValue(), "id.does.not.match");
-        assertEquals(OWNER_FIRST_NAME, found.getFirstName(), "name.does.not.match");
-        verify(ownerRepository, Mockito.times(1)).findByLastName(OWNER_FIRST_NAME);
+        assertEquals(OWNER_LAST_NAME, found.getLastName(), "name.does.not.match");
+        verify(ownerRepository, Mockito.times(1)).findByLastName(OWNER_LAST_NAME);
+    }
+
+    @Test
+    void service_findByLastNameLike_success() {
+        when(ownerRepository.findAllByLastNameLike(anyString())).thenReturn(singletonList(returnedOwner));
+
+        List<Owner> foundList = ownerService.findByLastNameLike(OWNER_LAST_NAME);
+        assertEquals(1L, foundList.get(0).getId().longValue(), "id.does.not.match");
+        assertEquals(OWNER_LAST_NAME, foundList.get(0).getLastName(), "name.does.not.match");
+        verify(ownerRepository, Mockito.times(1)).findAllByLastNameLike(anyString());
     }
 
     @Test
