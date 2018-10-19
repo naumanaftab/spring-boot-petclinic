@@ -26,7 +26,7 @@ class OwnerMapServiceTest extends AbstractMapService {
 
     @Test
     void service_findAll_success() {
-        assertEquals(owner_id, ownerService.findAll().size());
+        assertEquals(1L, ownerService.findAll().size());
     }
 
     @Test

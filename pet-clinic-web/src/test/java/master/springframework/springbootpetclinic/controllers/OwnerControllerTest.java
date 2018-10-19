@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OwnerControllerTest {
 
     @Mock
-    private OwnerSpringDataJPAService ownerSpringDataJPAService;
+    private OwnerSpringDataJPAService ownerService;
 
     @InjectMocks
     private OwnerController ownerController;
@@ -50,7 +50,7 @@ class OwnerControllerTest {
     @Test
     void controller_listOwners_success() throws Exception {
 
-        when(ownerSpringDataJPAService.findAll()).thenReturn(owners);
+        when(ownerService.findAll()).thenReturn(owners);
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
@@ -62,7 +62,7 @@ class OwnerControllerTest {
 //        ArgumentCaptor<Set<Owner>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 //
 //        assertEquals("owners/index", viewName, "returned.view.name.does.not.match");
-//        Mockito.verify(ownerSpringDataJPAService, times(1)).findAll();
+//        Mockito.verify(ownerService, times(1)).findAll();
 //        Mockito.verify(model, times(1)).addAttribute(eq("owners"), argumentCaptor.capture());
 //
 //        Set<Owner> returnedOwners = argumentCaptor.getValue();
@@ -78,6 +78,20 @@ class OwnerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("notimplemented"));
 
-        verifyZeroInteractions(ownerSpringDataJPAService);
+        verifyZeroInteractions(ownerService);
+    }
+
+    @Test
+    void controller_showOwner_success() throws Exception {
+
+        Owner owner = owners.iterator().next();
+        when(ownerService.findById(owner.getId())).thenReturn(owner);
+
+        mockMvc.perform(get("/owners/" + owner.getId()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(model().attribute("owner", owner))
+                .andExpect(model().attribute("owner", hasProperty("id", is(1L))));
+
     }
 }
