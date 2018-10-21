@@ -6,17 +6,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/owners")
 @Controller
 public class OwnerController {
+
+    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
     private OwnerService ownerService;
 
@@ -67,5 +67,38 @@ public class OwnerController {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.ownerService.findById(ownerId));
         return mav;
+    }
+
+    @GetMapping("/new")
+    public ModelAndView initCreateOwnerForm() {
+        ModelAndView mav = new ModelAndView(VIEWS_OWNER_CREATE_OR_UPDATE_FORM);
+        mav.addObject("owner", new Owner());
+        return mav;
+    }
+
+    @PostMapping("/new")
+    public ModelAndView processCreateOwnerForm(@Valid Owner owner, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ModelAndView(VIEWS_OWNER_CREATE_OR_UPDATE_FORM);
+        }
+        Owner savedOwner = ownerService.save(owner);
+        return new ModelAndView("redirect:/owners/" + savedOwner.getId());
+    }
+
+    @GetMapping("/{ownerId}/edit")
+    public ModelAndView initUpdateOwnerForm(@PathVariable("ownerId") Long ownerId) {
+        ModelAndView mav = new ModelAndView(VIEWS_OWNER_CREATE_OR_UPDATE_FORM);
+        mav.addObject("owner", ownerService.findById(ownerId));
+        return mav;
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public ModelAndView processUpdateOwnerForm(@PathVariable("ownerId") Long ownerId, @Valid Owner owner, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ModelAndView(VIEWS_OWNER_CREATE_OR_UPDATE_FORM);
+        }
+        owner.setId(ownerId);
+        Owner savedOwner = ownerService.save(owner);
+        return new ModelAndView("redirect:/owners/" + savedOwner.getId());
     }
 }
